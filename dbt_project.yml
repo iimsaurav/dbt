@@ -36,3 +36,12 @@ models:
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
+    l10_staging:
+      schema: l10_staging
+      materialized: view
+    l20_transform:
+      schema: l20_transform
+      materialized: view
+    l30_mart:
+      schema: l30_mart
+      materialized: view
