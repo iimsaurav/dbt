@@ -3,6 +3,11 @@ name: schedule_dbt_run
 on:
   schedule:
     - cron:  '0 5,17 * * *'
+    
+push:
+    branches:
+      - main
+
 env:
   DBT_PROFILES_DIR: ./
 
