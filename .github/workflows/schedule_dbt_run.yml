@@ -1,36 +1,22 @@
 name: schedule_dbt_run
 
 on:
-  schedule:
-    - cron:  '0 5,17 * * *'
-env:
-  DBT_PROFILES_DIR: ./
-
-  DBT_SNOWFLAKE_USERNAME: ${{ secrets.DBT_SNOWFLAKE_USERNAME }}
-  DBT_SNOWFLAKE_PW: ${{ secrets.DBT_SNOWFLAKE_PW }}
-  DBT_SNOWFLAKE_ROLE: ${{ secrets.DBT_SNOWFLAKE_ROLE }}
+  push:
+    branches: cicd
+  pull_request:
+    branches: cicd
 
 jobs:
-  scheduled_run:
-    name: scheduled_run
+  dbt:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out
-        uses: actions/checkout@cicd
-
-      - uses: actions/setup-python@v1
-        with:
-          python-version: "3.7.x"
-
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Install dependencies
-        run: |
-          pip install dbt
-          dbt deps
-      
-      # Add dbt seed or other commands here if needed
-      - name: Run dbt models
-        run: dbt run
-
-      - name: Test dbt models
+        run: pip install dbt
+      - name: DBT lint
+        run: dbt lint
+      - name: DBT test
         run: dbt test
+      - name: DBT run
+        run: dbt run
