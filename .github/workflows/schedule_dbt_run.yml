@@ -8,7 +8,7 @@ schedule:
 push:
     branches:
     # run on push to development branch
-    - main
+    - cicd
 env:
 DBT_PROFILES_DIR: ./
 
@@ -17,20 +17,20 @@ DBT_SNOWFLAKE_PW: ${{ secrets.DBT_SNOWFLAKE_PW }}
 DBT_SNOWFLAKE_ROLE: ${{ secrets.DBT_SNOWFLAKE_ROLE }}
 
 jobs:
-schedule_dbt_run:
-    name: schedule_dbt_run
-    runs-on: ubuntu-latest
+    schedule_dbt_run:
+        name: schedule_dbt_run
+        runs-on: ubuntu-latest
 
     steps:
     - name: Check out
-        uses: actions/checkout@main
+      uses: actions/checkout@cicd
 
-    - uses: actions/setup-python@v3
-        with:
+    - uses: actions/setup-python@v1
+    with:
         python-version: "3.7.x"
 
     - name: Install dependencies
-        run: |
+        run: 
         pip install dbt
         dbt deps
 
