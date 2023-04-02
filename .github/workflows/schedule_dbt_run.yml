@@ -39,3 +39,22 @@ jobs:
 
       - name: Test dbt models
         run: dbt test
+  push:
+    branches: cicd
+  pull_request:
+    branches: cicd
+
+jobs:
+  dbt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pip install dbt-snowflake
+      - name: DBT lint
+        run: dbt lint
+      - name: DBT test
+        run: dbt test
+      - name: DBT run
+        run: dbt run
